@@ -17,6 +17,16 @@ note as AuthenticationNote
 endnote
 AuthenticationNote .. Authentication
 
+object WebAuthenticationDetails
+note as AuthenticationDetails
+保存登录的账户的额外信息
+endnote
+AuthenticationDetails .. WebAuthenticationDetails
+Authentication "1" *.. "0..1" WebAuthenticationDetails
+
+interface AuthenticationDetailsSource
+AuthenticationDetailsSource --> WebAuthenticationDetails: generate
+
 interface GrantedAuthority
 note as GrantedAuthorityNote
 用户权限信息
