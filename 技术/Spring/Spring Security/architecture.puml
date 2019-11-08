@@ -63,21 +63,31 @@ note as AuthenticationProviderNote
 对指定的Authentication进行认证
 endnote
 AuthenticationProviderNote .. AuthenticationProvider
-AuthenticationProvider --> Authentication
+AuthenticationProvider --> Authentication: check
 
 ProviderManager "1" *--> "*" AuthenticationProvider
 }
 
 frame "通过DAO进行认证" as Step3 {
 
-class DaoAuthenticationProvider extends AuthenticationProvider
+abstract class AbstractUserDetailsAuthenticationProvider extends AuthenticationProvider
+AbstractUserDetailsAuthenticationProvider --> UsernamePasswordAuthenticationToken: check
+
+class DaoAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider
 note as DaoAuthenticationProviderNote
 通过UserDetails来进行认证
 endnote
-DaoAuthenticationProviderNote .. DaoAuthenticationProvider
+DaoAuthenticationProviderNote .. AbstractUserDetailsAuthenticationProvider
 
 interface UserDetails
+note as UserDetailsNote
+保存登录的账户相关的信息
+endnote
+UserDetailsNote .. UserDetails
 interface UserDetailsService
+
+AbstractUserDetailsAuthenticationProvider --> UserDetails: use
+
 UserDetailsService --> UserDetails: get
 DaoAuthenticationProvider --> UserDetailsService: use
 
