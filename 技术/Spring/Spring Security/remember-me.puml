@@ -5,20 +5,18 @@ interface RememberMeServices
 abstract class AbstractRememberMeServices
 RememberMeServices <|.. AbstractRememberMeServices
 
-class TokenBasedRememberMeServices extends AbstractRememberMeServices
-
-
-abstract class AbstractAuthenticationProcessingFilter
-AbstractAuthenticationProcessingFilter --> RememberMeServices
-
+class NullRememberMeServices
+RememberMeServices <|.. NullRememberMeServices
 
 class RememberMeAuthenticationToken extends Authentication
-
 class RememberMeAuthenticationProvider extends AuthenticationProvider
-RememberMeAuthenticationProvider --> RememberMeAuthenticationToken: generate
+RememberMeAuthenticationProvider --> RememberMeAuthenticationToken: verify
+RememberMeServices --> RememberMeAuthenticationToken: generate
 
 class RememberMeAuthenticationFilter
+RememberMeAuthenticationFilter --> RememberMeServices: auto_login
 
-
+abstract class AbstractAuthenticationProcessingFilter
+AbstractAuthenticationProcessingFilter --> RememberMeServices: login_success/login_failed
 
 @enduml
